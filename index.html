@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="main.js"></script>
+<title>円の軌跡を表示してみる</title>
+<style>
+#canvas {
+	border: solid 1px #000;
+	margin: 32px;
+}
+#push{
+    width:100px;
+    height:30px;
+    background-color:red;
+    color:white;
+
+}
+</style>
+
+</head>
+<body>
+    <form name="ask">
+        <p>点の数<input name="pnUp" value="1" type="text" name="name" size="40"></p>
+        <p>回転速度<input name="rotation" value="1" type="text" name="name" size="40"></p>
+    </div>
+    <div id="push" onclick="basicSet()">更新</div>
+	<canvas id="canvas" width="300" height="480"></canvas>
+</body>
+
+<script>
+    /*
+* 定数
+*/
+var SCREEN_WIDTH = 300;
+var SCREEN_HEIGHT = 480;
+
+/*
+* グローバル変数
+*/
+var $id = function(id){ return document.getElementById(id); };
+var canvas = null;			// キャンバス
+var g = null;					// コンテキスト
+var cx, cy;					// 中心座標
+var x, y;						// 中心から半径r、角度angleの真円上の座標
+var r = 100;					// 円の半径
+var angle = 0 ;				// 角度
+var speed = 10;				// 1秒間の描画回数
+var pn = 1;
+var pnAngle;
+var lastpnAngle =0;
+
+function basicSet() {
+    speed=document.ask.rotation.value;
+    pn = document.ask.pnUp.value;
+}
+/*
+ * イベント処理
+ */
+
+
+/*
+ * 描画処理
+ */
+var draw = function(e){
+	// 画面をクリア
+	g.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	// 中心座標設定
+	cx = SCREEN_WIDTH / 2;
+	cy = SCREEN_HEIGHT / 2;
+	/*中心を描画
+	g.beginPath();
+	g.strokeStyle = "rgba(255, 0, 0, 1.0)";
+	g.arc(cx, cy, 5, 0, Math.PI*2, false);
+	g.stroke();
+    */
+	// 中心から半径r、角度angleの真円上の座標を計算
+
+
+    
+
+    for ( var i = 1; i <= pn; i++){
+        pnAngle =  lastpnAngle + 360/pn;
+
+        x = r * Math.cos(angle+pnAngle / 180 * Math.PI) + cx;
+	y = r * Math.sin(angle + pnAngle/ 180 * Math.PI) + cy;
+	// 中心から真円上の座標に円を描画（わかりやすくするため）
+	g.beginPath();
+	g.strokeStyle = "rgba(0, 0, 0, 1.0)";
+	g.moveTo(cx, cy);
+	//g.lineTo(x, y);
+	g.stroke();
+	// 真円上の座標に円を描画
+	g.beginPath();
+	g.strokeStyle = "rgba(0, 0, 0, 1.0)";
+	g.arc(x, y, 5, 0, Math.PI*2, false);
+	g.stroke();
+
+    lastpnAngle = pnAngle;
+
+    };
+
+    
+	// 角度を変える
+	angle += 0.1;
+	if(angle >= 360) angle = 0;
+	// アニメーション
+	setTimeout(draw, 1000/speed);
+};
+
+/*
+ メイン処理
+ */
+
+window.onload = function()
+{
+	// キャンバス情報取得
+	canvas = $id("canvas");
+	g = canvas.getContext("2d");
+	// 円の軌跡を描画
+    
+	draw();
+    
+};
+</script>
+</html>
