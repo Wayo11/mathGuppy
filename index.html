@@ -25,7 +25,7 @@
         <p>点の数<input name="pnUp" value="1" type="text" name="name" size="40"></p>
         <p>回転速度<input name="rotation" value="1" type="text" name="name" size="40"></p>
     </div>
-    <div id="push" onclick="basicSet()">更新</div>
+    <div id="push" onclick="basicSet()">更新</div>//更新ボタン
 	<canvas id="canvas" width="300" height="480"></canvas>
 </body>
 
@@ -50,17 +50,12 @@ var speed = 10;				// 1秒間の描画回数
 var pn = 1;
 var pnAngle;
 var lastpnAngle =0;
-
+//点の数と回転速度をフォームの入力に合わせて更新
 function basicSet() {
     speed=document.ask.rotation.value;
     pn = document.ask.pnUp.value;
 }
-/*
- * イベント処理
- */
 
-
-/*
  * 描画処理
  */
 var draw = function(e){
@@ -69,19 +64,14 @@ var draw = function(e){
 	// 中心座標設定
 	cx = SCREEN_WIDTH / 2;
 	cy = SCREEN_HEIGHT / 2;
-	/*中心を描画
-	g.beginPath();
-	g.strokeStyle = "rgba(255, 0, 0, 1.0)";
-	g.arc(cx, cy, 5, 0, Math.PI*2, false);
-	g.stroke();
-    */
+	
 	// 中心から半径r、角度angleの真円上の座標を計算
 
 
     
-
+//for以下は、（点を描く、360度/点の数だけずらしてまた点を描く）の動作を点の数だけ繰り返している。
     for ( var i = 1; i <= pn; i++){
-        pnAngle =  lastpnAngle + 360/pn;
+        pnAngle =  lastpnAngle + 360/pn;//前回の角度+ずらす角度
 
         x = r * Math.cos(angle+pnAngle / 180 * Math.PI) + cx;
 	y = r * Math.sin(angle + pnAngle/ 180 * Math.PI) + cy;
@@ -97,7 +87,7 @@ var draw = function(e){
 	g.arc(x, y, 5, 0, Math.PI*2, false);
 	g.stroke();
 
-    lastpnAngle = pnAngle;
+    lastpnAngle = pnAngle;//今回の値を保存
 
     };
 
